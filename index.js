@@ -1,24 +1,21 @@
 (() => {
+  let n = document.createElement("iframe");
 
-    let n = document.createElement('iframe');
+  document.body.append(n);
 
-    document.body.append(n);
+  window.alert = n.contentWindow.alert.bind(window);
 
-    window.alert = n.contentWindow.alert.bind(window);
+  window.prompt = n.contentWindow.prompt.bind(window);
 
-    window.prompt = n.contentWindow.prompt.bind(window);
+  window.confirm = n.contentWindow.confirm.bind(window);
 
-    window.confirm = n.contentWindow.confirm.bind(window);
-
-    n.remove();
-
+  n.remove();
 })();
 
 (() => {
+  let style = document.createElement("style");
 
-    let style = document.createElement('style');
-
-    style.innerHTML = (`details > summary {
+  style.innerHTML = `details > summary {
 
     cursor: pointer;
 
@@ -82,1123 +79,1084 @@ details summary ~ * {
 
     background: hsl(0, 0%, 30%);
 
-}`);
+}`;
 
+  const GUI = document.createElement("div");
 
+  GUI.appendChild(style);
 
-    const GUI = document.createElement('div');
+  GUI.style.width = "400px";
 
-    GUI.appendChild(style);
+  //GUI.style.height = '500px';
 
-    GUI.style.width = '400px';
+  GUI.style.background = "hsl(0, 0%, 10%)";
 
-    //GUI.style.height = '500px';
+  GUI.style.borderRadius = "10px";
 
-    GUI.style.background = 'hsl(0, 0%, 10%)';
+  GUI.style.position = "absolute";
 
-    GUI.style.borderRadius = '10px';
+  GUI.style.textAlign = "center";
 
-    GUI.style.position = 'absolute';
+  GUI.style.fontFamily = "Nunito";
 
-    GUI.style.textAlign = 'center';
+  GUI.style.color = "white";
 
-    GUI.style.fontFamily = 'Nunito';
+  GUI.style.overflow = "hidden";
 
-    GUI.style.color = 'white';
+  GUI.style.top = "50px";
 
-    GUI.style.overflow = 'hidden';
+  GUI.style.left = "50px";
 
-    GUI.style.top = '50px';
+  var pos1 = 0,
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
 
-    GUI.style.left = '50px';
+  GUI.onmousedown = (e = window.event) => {
+    e.preventDefault();
 
+    pos3 = e.clientX;
 
+    pos4 = e.clientY;
 
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    document.onmouseup = () => {
+      document.onmouseup = null;
 
-    GUI.onmousedown = ((e = window.event) => {
-
-        e.preventDefault();
-
-        pos3 = e.clientX;
-
-        pos4 = e.clientY;
-
-        document.onmouseup = (() => {
-
-            document.onmouseup = null;
-
-            document.onmousemove = null;
-
-        });
-
-        document.onmousemove = ((e) => {
-
-            e = e || window.event;
-
-            e.preventDefault();
-
-            pos1 = pos3 - e.clientX;
-
-            pos2 = pos4 - e.clientY;
-
-            pos3 = e.clientX;
-
-            pos4 = e.clientY;
-
-            GUI.style.top = (GUI.offsetTop - pos2) + "px";
-
-            GUI.style.left = (GUI.offsetLeft - pos1) + "px";
-
-        });
-
-    });
-
-
-
-    let header = document.createElement('div');
-
-    GUI.appendChild(header);
-
-    header.style.width = '100%';
-
-    header.style.height = '35px';
-
-    header.style.paddingTop = '2px';
-
-    header.style.fontSize = '1.5rem';
-
-    header.style.textAlign = 'center'
-
-    header.innerHTML = `Blooket Cheats <span style="font-size: 0.75rem">v4.10.22</span>`;
-
-
-
-    let loop;
-
-
-
-    let close = document.createElement('button');
-
-    header.appendChild(close);
-
-    close.style.background = 'red';
-
-    close.style.height = '45px';
-
-    close.style.width = '45px';
-
-    close.style.border = 'none';
-
-    close.style.cursor = 'pointer';
-
-    close.style.position = 'absolute';
-
-    close.style.top = '-10px';
-
-    close.style.right = '-10px';
-
-    close.style.fontSize = '1.5rem';
-
-    close.style.borderRadius = '10px';
-
-    close.style.fontFamily = 'Nunito';
-
-    close.style.fontWeight = 'bolder';
-
-    close.style.paddingTop = '10px';
-
-    close.style.paddingRight = '15px';
-
-    close.innerText = 'X';
-
-    close.onclick = () => {
-
-        GUI.remove();
-
-        clearInterval(loop);
-
-        removeEventListener('keypress', toggleHidden)
-
-    }
-
-
-
-    let minimize = document.createElement('button');
-
-    header.appendChild(minimize);
-
-    minimize.style.background = '#444444';
-
-    minimize.style.height = '45px';
-
-    minimize.style.width = '45px';
-
-    minimize.style.border = 'none';
-
-    minimize.style.cursor = 'pointer';
-
-    minimize.style.position = 'absolute';
-
-    minimize.style.top = '-10px';
-
-    minimize.style.left = '-10px';
-
-    minimize.style.fontSize = '1.5rem';
-
-    minimize.style.borderRadius = '10px';
-
-    minimize.style.fontFamily = 'Nunito';
-
-    minimize.style.fontWeight = 'bolder';
-
-    minimize.style.paddingTop = '10px';
-
-    minimize.style.paddingLeft = '15px';
-
-    minimize.innerText = '-';
-
-    minimize.onclick = () => {
-
-        bodyDiv.hidden = !bodyDiv.hidden;
-
-    }
-
-    let bodyDiv = document.createElement('div');
-
-    let body = document.createElement('div');
-
-    bodyDiv.appendChild(body);
-
-    GUI.appendChild(bodyDiv);
-
-
-
-    body.innerHTML = (`<span id="curPageEl">${getSite(true) ? `Current gamemode: ${getSite(true)}` : 'No game detected'}</span><br><span>(Press E to hide)</span><br>`);
-
-    body.style.display = 'block';
-
-    body.style.margin = '10px';
-
-    //body.style.background = 'white';
-
-    body.style.minHeight = '70px';
-
-
-
-    let activeCheats = document.createElement('span');
-
-    body.appendChild(activeCheats);
-
-
-
-    document.body.append(GUI);
-
-
-
-    let footer = document.createElement('div');
-
-    bodyDiv.appendChild(footer);
-
-    footer.style.fontSize = '0.9rem';
-
-    footer.style.paddingBottom = '5px';
-
-    footer.innerHTML = (`<span>GUI by OneMinesraft2#5394<br>Cheats by <a style="color: lightblue" href="https://twitter.com/glizuwu">gliz</a></span>`);
-
-
-
-    var getValues = () => new Promise((e, t) => {
-
-        try {
-
-            let n = window.webpackJsonp.map(e => Object.keys(e[1]).map(t => e[1][t])).reduce((e, t) => [...e, ...t], []).find(e => /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/.test(e.toString()) && /\(new TextEncoder\)\.encode\(\"(.+?)\"\)/.test(e.toString())).toString();
-
-            e({
-
-                blooketBuild: n.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)[0],
-
-                secret: n.match(/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/)[1]
-
-            })
-
-        } catch {
-
-            t("Could not fetch auth details")
-
-        }
-
-    })
-
-    var encodeValues = async (e, t) => {
-
-        let d = window.crypto.getRandomValues(new Uint8Array(12));
-
-        return window.btoa(Array.from(d).map(e => String.fromCharCode(e)).join("") + Array.from(new Uint8Array(await window.crypto.subtle.encrypt({
-
-            name: "AES-GCM",
-
-            iv: d
-
-        }, await window.crypto.subtle.importKey("raw", await window.crypto.subtle.digest("SHA-256", (new TextEncoder).encode(t)), {
-
-            name: "AES-GCM"
-
-        }, !1, ["encrypt"]), (new TextEncoder).encode(JSON.stringify(e))))).map(e => String.fromCharCode(e)).join(""))
-
+      document.onmousemove = null;
     };
 
+    document.onmousemove = (e) => {
+      e = e || window.event;
 
+      e.preventDefault();
 
-    function reactHandler() {
+      pos1 = pos3 - e.clientX;
 
-        return Object.values(document.querySelector('#app > div > div'))[1].children[1]._owner;
+      pos2 = pos4 - e.clientY;
 
-    }
+      pos3 = e.clientX;
 
+      pos4 = e.clientY;
 
+      GUI.style.top = GUI.offsetTop - pos2 + "px";
 
-    let autoAnswer, highlightAnswers, choiceESP, autoPassword, chestESP;
+      GUI.style.left = GUI.offsetLeft - pos1 + "px";
+    };
+  };
 
+  let header = document.createElement("div");
 
+  GUI.appendChild(header);
 
-    let cheats = {
+  header.style.width = "100%";
 
-        global: {
+  header.style.height = "35px";
 
-            'Get Daily Rewards': () => {
+  header.style.paddingTop = "2px";
 
-                fetch("https://api.blooket.com/api/users", { credentials: "include" }).then(x => x.json()).then(x => {
+  header.style.fontSize = "1.5rem";
 
-                    getValues().then(async e => {
+  header.style.textAlign = "center";
 
-                        fetch("https://api.blooket.com/api/users/add-rewards", {
+  header.innerHTML = `Blooket Cheats <span style="font-size: 0.75rem">v4.10.22</span>`;
 
-                            method: "put",
+  let loop;
 
-                            credentials: "include",
+  let close = document.createElement("button");
 
-                            headers: {
+  header.appendChild(close);
 
-                                "content-type": "application/json",
+  close.style.background = "red";
 
-                                "X-Blooket-Build": e.blooketBuild
+  close.style.height = "45px";
 
-                            },
+  close.style.width = "45px";
 
-                            body: await encodeValues({
+  close.style.border = "none";
 
-                                name: x.name,
+  close.style.cursor = "pointer";
 
-                                addedTokens: 250,
+  close.style.position = "absolute";
 
-                                addedXp: 300
+  close.style.top = "-10px";
 
-                            }, e.secret)
+  close.style.right = "-10px";
 
-                        });
+  close.style.fontSize = "1.5rem";
 
-                        fetch("https://api.blooket.com/api/users/add-rewards", {
+  close.style.borderRadius = "10px";
 
-                            method: "put",
+  close.style.fontFamily = "Nunito";
 
-                            credentials: "include",
+  close.style.fontWeight = "bolder";
 
-                            headers: {
+  close.style.paddingTop = "10px";
 
-                                "content-type": "application/json",
+  close.style.paddingRight = "15px";
 
-                                "X-Blooket-Build": e.blooketBuild
+  close.innerText = "X";
 
-                            },
+  close.onclick = () => {
+    GUI.remove();
 
-                            body: await encodeValues({
+    clearInterval(loop);
 
-                                name: x.name,
+    removeEventListener("keypress", toggleHidden);
+  };
 
-                                addedTokens: 250,
+  let minimize = document.createElement("button");
 
-                                addedXp: 300
+  header.appendChild(minimize);
 
-                            }, e.secret)
+  minimize.style.background = "#444444";
 
-                        }).then(() => alert('Added daily rewawrds!')).catch(() => alert('There was an error when adding rewards!'));;
+  minimize.style.height = "45px";
 
-                    }).catch(() => alert('There was an error encoding requests!'));
+  minimize.style.width = "45px";
 
-                }).catch(() => alert('There was an error getting username!'));
+  minimize.style.border = "none";
 
-            },
+  minimize.style.cursor = "pointer";
 
-            'Spoof Blooks': () => {
+  minimize.style.position = "absolute";
 
-                if (!window.location.pathname.split('/').includes('lobby')) return alert('You must be in a game lobby! (e.g. https://www.blooket.com/play/lobby)');
+  minimize.style.top = "-10px";
 
-                reactHandler().stateNode.setState({ lockedBlooks: [], takenBlooks: [] });
+  minimize.style.left = "-10px";
 
-            },
+  minimize.style.fontSize = "1.5rem";
 
-            'Toggle Auto Answer': () => { autoAnswer = !autoAnswer },
+  minimize.style.borderRadius = "10px";
 
-            'Toggle Highlight Answers': () => { highlightAnswers = !highlightAnswers },
+  minimize.style.fontFamily = "Nunito";
 
-            'Spam Open Boxes': () => {
+  minimize.style.fontWeight = "bolder";
 
-                let box = prompt(`Which box do you want to open? (e.g. Space)`);
+  minimize.style.paddingTop = "10px";
 
-                let boxes = {
+  minimize.style.paddingLeft = "15px";
 
-                    safari: 25,
+  minimize.innerText = "-";
 
-                    aquatic: 20,
+  minimize.onclick = () => {
+    bodyDiv.hidden = !bodyDiv.hidden;
+  };
 
-                    bot: 20,
+  let bodyDiv = document.createElement("div");
 
-                    space: 20,
+  let body = document.createElement("div");
 
-                    breakfast: 15,
+  bodyDiv.appendChild(body);
 
-                    medieval: 15,
+  GUI.appendChild(bodyDiv);
 
-                    wonderland: 15
+  body.innerHTML = `<span id="curPageEl">${
+    getSite(true) ? `Current gamemode: ${getSite(true)}` : "No game detected"
+  }</span><br><span>(Press E to hide)</span><br>`;
 
-                }
+  body.style.display = "block";
 
-                if (!Object.keys(boxes).includes(box.toLowerCase())) return alert('I could not find that box!');
+  body.style.margin = "10px";
 
-                let amount = prompt('How many boxes do you want to open?');
+  //body.style.background = 'white';
 
-                fetch("https://api.blooket.com/api/users", { credentials: "include" }).then(x => x.json()).then(x => {
+  body.style.minHeight = "70px";
 
-                    if (x.tokens < boxes[box.toLowerCase()] * amount) amount = Math.floor(x.tokens / boxes[box.toLowerCase()]);
+  let activeCheats = document.createElement("span");
 
-                    if (!amount) return alert('You do not have enough tokens!');
+  body.appendChild(activeCheats);
 
-                    let wait = ms => new Promise(r => setTimeout(r, ms));
+  document.body.append(GUI);
 
-                    getValues().then(async e => {
+  let footer = document.createElement("div");
 
-                        let error = false,
+  bodyDiv.appendChild(footer);
 
-                            blooks = [];
+  footer.style.fontSize = "0.9rem";
 
-                        for (let i = 0; i < amount; i++) {
+  footer.style.paddingBottom = "5px";
 
-                            fetch("https://api.blooket.com/api/users/unlockblook", {
+  footer.innerHTML = `<span>GUI by OneMinesraft2#5394<br>Cheats by <a style="color: lightblue" href="https://twitter.com/glizuwu">gliz</a></span>`;
 
-                                method: "put",
+  var getValues = () =>
+    new Promise((e, t) => {
+      try {
+        let n = window.webpackJsonp
+          .map((e) => Object.keys(e[1]).map((t) => e[1][t]))
+          .reduce((e, t) => [...e, ...t], [])
+          .find(
+            (e) =>
+              /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/.test(e.toString()) &&
+              /\(new TextEncoder\)\.encode\(\"(.+?)\"\)/.test(e.toString())
+          )
+          .toString();
 
-                                credentials: "include",
+        e({
+          blooketBuild: n.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)[0],
 
-                                headers: {
+          secret: n.match(/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/)[1],
+        });
+      } catch {
+        t("Could not fetch auth details");
+      }
+    });
 
-                                    "content-type": "application/json",
+  var encodeValues = async (e, t) => {
+    let d = window.crypto.getRandomValues(new Uint8Array(12));
 
-                                    "X-Blooket-Build": e.blooketBuild
+    return window.btoa(
+      Array.from(d)
+        .map((e) => String.fromCharCode(e))
+        .join("") +
+        Array.from(
+          new Uint8Array(
+            await window.crypto.subtle.encrypt(
+              {
+                name: "AES-GCM",
 
-                                },
+                iv: d,
+              },
+              await window.crypto.subtle.importKey(
+                "raw",
+                await window.crypto.subtle.digest(
+                  "SHA-256",
+                  new TextEncoder().encode(t)
+                ),
+                {
+                  name: "AES-GCM",
+                },
+                !1,
+                ["encrypt"]
+              ),
+              new TextEncoder().encode(JSON.stringify(e))
+            )
+          )
+        )
+          .map((e) => String.fromCharCode(e))
+          .join("")
+    );
+  };
 
-                                body: await encodeValues({
+  function reactHandler() {
+    return Object.values(document.querySelector("#app > div > div"))[1]
+      .children[1]._owner;
+  }
 
-                                    name: x.name,
+  let autoAnswer, highlightAnswers, choiceESP, autoPassword, chestESP;
 
-                                    box: box.charAt(0).toUpperCase() + box.slice(1).toLowerCase()
+  let cheats = {
+    global: {
+      "Get Daily Rewards": () => {
+        fetch("https://api.blooket.com/api/users", { credentials: "include" })
+          .then((x) => x.json())
+          .then((x) => {
+            getValues()
+              .then(async (e) => {
+                fetch("https://api.blooket.com/api/users/add-rewards", {
+                  method: "put",
 
-                                }, e.secret)
+                  credentials: "include",
 
-                            }).then(async x => {
+                  headers: {
+                    "content-type": "application/json",
 
-                                let blook = await x.json();
+                    "X-Blooket-Build": e.blooketBuild,
+                  },
 
-                                blooks.push(blook.unlockedBlook);
+                  body: await encodeValues(
+                    {
+                      name: x.name,
 
-                                alert(`${blook.unlockedBlook} (${i + 1}/${amount})`);
+                      addedTokens: 250,
 
-                            }).catch(() => { error = true });
-
-                            await wait(750);
-
-                            if (error) break;
-
-                        }
-
-                        let count = {};
-
-                        blooks.forEach(blook => { count[blook] = (count[blook] || 0) + 1 });
-
-                        alert(`Results:\n` + Object.entries(count).map((x) => `    ${x[1]} ${x[0]}`).join(`\n`));
-
-                    }).catch(() => alert('There was an error encoding requests!'));
-
-                }).catch(() => alert('There was an error getting username!'));
-
-            },
-
-            'Auto Sell Dupes': () => {
-
-                fetch("https://api.blooket.com/api/users", { credentials: "include" }).then(x => x.json()).then(x => {
-
-                    let blooks = Object.entries(x.unlocks).map(x => [x[0], x[1] - 1]).filter(x => x[1] > 0);
-
-                    let wait = ms => new Promise(r => setTimeout(r, ms));
-
-                    getValues().then(async e => {
-
-                        let error = false;
-
-                        alert('Selling duplicate blooks, please wait');
-
-                        for (let [blook, numSold] of blooks) {
-
-                            fetch("https://api.blooket.com/api/users/sellblook", {
-
-                                method: "put",
-
-                                credentials: "include",
-
-                                headers: {
-
-                                    "content-type": "application/json",
-
-                                    "X-Blooket-Build": e.blooketBuild
-
-                                },
-
-                                body: await encodeValues({
-
-                                    name: x.name,
-
-                                    blook,
-
-                                    numSold
-
-                                }, e.secret)
-
-                            }).catch(() => { error = true });
-
-                            await wait(750);
-
-                            if (error) break;
-
-                        }
-
-                        alert(`Results:\n` + blooks.map((x) => `    ${x[1]} ${x[0]}`).join(`\n`));
-
-                    }).catch(() => alert('There was an error encoding requests!'));
-
-                }).catch(() => alert('There was an error getting user data!'));
-
-            }
-
-        },
-
-        cafe: {
-
-            'Infinite Food': () => {
-
-                if (document.location.pathname != "/cafe") return alert("This cheat doesn't work in the shop!");
-
-                reactHandler().stateNode.state.foods.forEach(e => e.stock = 99999);
-
-                reactHandler().stateNode.forceUpdate();
-
-            },
-
-            'Max Levels': () => {
-
-                if (document.location.pathname != "/cafe/shop") return alert("This cheat only works in the shop!");
-
-                Object.keys(reactHandler().stateNode.state.items).forEach(x => reactHandler().stateNode.state.items[x] = 5);
-
-                reactHandler().stateNode.forceUpdate();
-
-            },
-
-            'Set Cash': () => {
-
-                reactHandler().stateNode.setState({ cafeCash: Number(parseFloat(prompt('How much cash would you like?'))) });
-
-            },
-
-            'Reset Abilities': () => {
-
-                Object.keys(reactHandler().stateNode.state.abilities).forEach(x => reactHandler().stateNode.state.abilities[x] = 5);
-
-                reactHandler().stateNode.forceUpdate();
-
-            }
-
-        },
-
-        kingdom: {
-
-            'Choice ESP': () => { choiceESP = !choiceESP },
-
-            'Max Stats': () => {
-
-                reactHandler().stateNode.setState({ materials: 100, people: 100, happiness: 100, gold: 100 });
-
-            },
-
-            'Disable Toucan': () => {
-
-                reactHandler().stateNode.taxCounter = Number.MAX_VALUE;
-
-            },
-
-            'Set Guests': () => {
-
-                let guestScore = Number(parseFloat(prompt('How many guests do you want?')));
-
-                reactHandler().stateNode.setState({ guestScore });
-
-            },
-
-            'Skip Guest': () => {
-
-                reactHandler().stateNode.nextGuest();
-
-            }
-
-        },
-
-        crypto: {
-
-            'Auto Hack': () => { autoPassword = !autoPassword },
-
-            'Set Crypto': () => {
-
-                let amount = Number(parseFloat(prompt('How much crypto do you want?')));
-
-                reactHandler().stateNode.setState({ crypto2: amount, crypto: amount });
-
-            },
-
-            'Custom Password': () => {
-
-                let password = Number(parseFloat(prompt('What do you want to set your password to?')));
-
-                reactHandler().stateNode.setState({ password });
-
-            },
-
-            'Remove Hack': () => {
-
-                reactHandler().stateNode.setState({ hack: '' })
-
-            },
-
-            'Reset Player\'s Crypto': () => {
-
-                let target = prompt("Name of player");
-
-                let e = reactHandler();
-
-                !target || e.memoizedProps.firebase.getDatabaseVal(e.memoizedProps.client.hostId, "c", (...o) => {
-
-                    let data = Object.keys(o[0]);
-
-                    if (data.some(e => e == target)) data.forEach(player => {
-
-                        if (player == target) {
-
-                            e.memoizedProps.firebase.setVal({
-
-                                id: e.memoizedProps.client.hostId,
-
-                                path: "c/" + e.memoizedProps.client.name,
-
-                                val: {
-
-                                    p: e.stateNode.state.password,
-
-                                    b: e.memoizedProps.client.blook,
-
-                                    cr: e.stateNode.state.crypto,
-
-                                    tat: player + ":" + (o[0][player].cr || 0)
-
-                                }
-
-                            }); alert('Reset player\'s crypto')
-
-                        };
-
-                    });
-
-                    else alert("Player does not exist");
-
-                })
-
-            }
-
-        },
-
-        factory: {
-
-            'All Mega Bot': () => {
-
-                let blooks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].fill({ name: "Mega Bot", color: "#d71f27", class: "🤖", rarity: "Legendary", cash: [80000, 430000, 4200000, 62000000, 1000000000], time: [5, 5, 3, 3, 3], price: [7000000, 120000000, 1900000000, 35000000000], active: false, level: 4, bonus: 5.5 })
-
-                reactHandler().stateNode.setState({ blooks });
-
-            },
-
-            'Remove Glitches': () => {
-
-                reactHandler().stateNode.setState({
-
-                    glitch: "",
-
-                    bites: 0,
-
-                    ads: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-
-                    hazards: ["", "", "", "", ""],
-
-                    lol: false,
-
-                    joke: false,
-
-                    slow: false,
-
-                    dance: false,
-
-                    popUpAmount: 0,
-
+                      addedXp: 300,
+                    },
+                    e.secret
+                  ),
                 });
 
-            },
+                fetch("https://api.blooket.com/api/users/add-rewards", {
+                  method: "put",
 
-            'Max Blooks': () => {
+                  credentials: "include",
 
-                reactHandler().stateNode.state.blooks.forEach(blook => { blook.level = 4 });
+                  headers: {
+                    "content-type": "application/json",
 
-            },
+                    "X-Blooket-Build": e.blooketBuild,
+                  },
 
-            'Set Cash': () => {
+                  body: await encodeValues(
+                    {
+                      name: x.name,
 
-                let cash = Number(parseFloat(prompt('How much cash do you want?')));
+                      addedTokens: 250,
 
-                reactHandler().stateNode.setState({ cash });
+                      addedXp: 300,
+                    },
+                    e.secret
+                  ),
+                })
+                  .then(() => alert("Added daily rewawrds!"))
+                  .catch(() =>
+                    alert("There was an error when adding rewards!")
+                  );
+              })
+              .catch(() => alert("There was an error encoding requests!"));
+          })
+          .catch(() => alert("There was an error getting username!"));
+      },
 
-            },
+      "Spoof Blooks": () => {
+        if (!window.location.pathname.split("/").includes("lobby"))
+          return alert(
+            "You must be in a game lobby! (e.g. https://www.blooket.com/play/lobby)"
+          );
 
-        },
+        reactHandler().stateNode.setState({
+          lockedBlooks: [],
+          takenBlooks: [],
+        });
+      },
 
-        fishing: {
+      "Toggle Auto Answer": () => {
+        autoAnswer = !autoAnswer;
+      },
 
-            'Set Weight': () => {
+      "Toggle Highlight Answers": () => {
+        highlightAnswers = !highlightAnswers;
+      },
 
-                let weight = Number(parseFloat(prompt('How much weight do you want?')));
+      "Spam Open Boxes": () => {
+        let box = prompt(`Which box do you want to open? (e.g. Space)`);
 
-                reactHandler().stateNode.setState({ weight2: weight, weight });
+        let boxes = {
+          safari: 25,
 
-            },
+          aquatic: 20,
 
-            'Set Lure': () => {
+          bot: 20,
 
-                let lure = Number(parseFloat(prompt('What do you want to set your lure to? (1 - 5)'))) - 1;
+          space: 20,
 
-                reactHandler().stateNode.setState({ lure: lure < 0 ? 0 : lure > 4 ? 4 : lure });
+          breakfast: 15,
 
-            }
+          medieval: 15,
 
-        },
+          wonderland: 15,
+        };
 
-        gold: {
+        if (!Object.keys(boxes).includes(box.toLowerCase()))
+          return alert("I could not find that box!");
 
-            'Set Gold': () => {
+        let amount = prompt("How many boxes do you want to open?");
 
-                let gold = Number(parseFloat(prompt('How much gold do you want?')));
+        fetch("https://api.blooket.com/api/users", { credentials: "include" })
+          .then((x) => x.json())
+          .then((x) => {
+            if (x.tokens < boxes[box.toLowerCase()] * amount)
+              amount = Math.floor(x.tokens / boxes[box.toLowerCase()]);
 
-                reactHandler().stateNode.setState({ gold2: gold, gold });
+            if (!amount) return alert("You do not have enough tokens!");
 
-            },
+            let wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-            'Chest ESP': () => { chestESP = !chestESP },
+            getValues()
+              .then(async (e) => {
+                let error = false,
+                  blooks = [];
 
-            "Set Player's Gold": () => {
+                for (let i = 0; i < amount; i++) {
+                  fetch("https://api.blooket.com/api/users/unlockblook", {
+                    method: "put",
 
-                let e = reactHandler(),
+                    credentials: "include",
 
-                    player = prompt("Player to set gold"),
+                    headers: {
+                      "content-type": "application/json",
 
-                    amount = Number(parseFloat(prompt("Amount to set gold to")));
+                      "X-Blooket-Build": e.blooketBuild,
+                    },
 
-                e.memoizedProps.firebase.setVal({
+                    body: await encodeValues(
+                      {
+                        name: x.name,
 
-                    id: e.memoizedProps.client.hostId,
+                        box:
+                          box.charAt(0).toUpperCase() +
+                          box.slice(1).toLowerCase(),
+                      },
+                      e.secret
+                    ),
+                  })
+                    .then(async (x) => {
+                      let blook = await x.json();
 
-                    path: "c/" + e.memoizedProps.client.name,
+                      blooks.push(blook.unlockedBlook);
 
-                    val: {
+                      alert(`${blook.unlockedBlook} (${i + 1}/${amount})`);
+                    })
+                    .catch(() => {
+                      error = true;
+                    });
+
+                  await wait(750);
+
+                  if (error) break;
+                }
+
+                let count = {};
+
+                blooks.forEach((blook) => {
+                  count[blook] = (count[blook] || 0) + 1;
+                });
+
+                alert(
+                  `Results:\n` +
+                    Object.entries(count)
+                      .map((x) => `    ${x[1]} ${x[0]}`)
+                      .join(`\n`)
+                );
+              })
+              .catch(() => alert("There was an error encoding requests!"));
+          })
+          .catch(() => alert("There was an error getting username!"));
+      },
+
+      "Auto Sell Dupes": () => {
+        fetch("https://api.blooket.com/api/users", { credentials: "include" })
+          .then((x) => x.json())
+          .then((x) => {
+            let blooks = Object.entries(x.unlocks)
+              .map((x) => [x[0], x[1] - 1])
+              .filter((x) => x[1] > 0);
+
+            let wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+            getValues()
+              .then(async (e) => {
+                let error = false;
+
+                alert("Selling duplicate blooks, please wait");
+
+                for (let [blook, numSold] of blooks) {
+                  fetch("https://api.blooket.com/api/users/sellblook", {
+                    method: "put",
+
+                    credentials: "include",
+
+                    headers: {
+                      "content-type": "application/json",
+
+                      "X-Blooket-Build": e.blooketBuild,
+                    },
+
+                    body: await encodeValues(
+                      {
+                        name: x.name,
+
+                        blook,
+
+                        numSold,
+                      },
+                      e.secret
+                    ),
+                  }).catch(() => {
+                    error = true;
+                  });
+
+                  await wait(750);
+
+                  if (error) break;
+                }
+
+                alert(
+                  `Results:\n` +
+                    blooks.map((x) => `    ${x[1]} ${x[0]}`).join(`\n`)
+                );
+              })
+              .catch(() => alert("There was an error encoding requests!"));
+          })
+          .catch(() => alert("There was an error getting user data!"));
+      },
+    },
+
+    cafe: {
+      "Infinite Food": () => {
+        if (document.location.pathname != "/cafe")
+          return alert("This cheat doesn't work in the shop!");
+
+        reactHandler().stateNode.state.foods.forEach((e) => (e.stock = 99999));
+
+        reactHandler().stateNode.forceUpdate();
+      },
+
+      "Max Levels": () => {
+        if (document.location.pathname != "/cafe/shop")
+          return alert("This cheat only works in the shop!");
+
+        Object.keys(reactHandler().stateNode.state.items).forEach(
+          (x) => (reactHandler().stateNode.state.items[x] = 5)
+        );
+
+        reactHandler().stateNode.forceUpdate();
+      },
+
+      "Set Cash": () => {
+        reactHandler().stateNode.setState({
+          cafeCash: Number(parseFloat(prompt("How much cash would you like?"))),
+        });
+      },
+
+      "Reset Abilities": () => {
+        Object.keys(reactHandler().stateNode.state.abilities).forEach(
+          (x) => (reactHandler().stateNode.state.abilities[x] = 5)
+        );
+
+        reactHandler().stateNode.forceUpdate();
+      },
+    },
+
+    kingdom: {
+      "Choice ESP": () => {
+        choiceESP = !choiceESP;
+      },
+
+      "Max Stats": () => {
+        reactHandler().stateNode.setState({
+          materials: 100,
+          people: 100,
+          happiness: 100,
+          gold: 100,
+        });
+      },
+
+      "Disable Toucan": () => {
+        reactHandler().stateNode.taxCounter = Number.MAX_VALUE;
+      },
+
+      "Set Guests": () => {
+        let guestScore = Number(
+          parseFloat(prompt("How many guests do you want?"))
+        );
+
+        reactHandler().stateNode.setState({ guestScore });
+      },
+
+      "Skip Guest": () => {
+        reactHandler().stateNode.nextGuest();
+      },
+    },
+
+    crypto: {
+      "Auto Hack": () => {
+        autoPassword = !autoPassword;
+      },
+
+      "Set Crypto": () => {
+        let amount = Number(parseFloat(prompt("How much crypto do you want?")));
+
+        reactHandler().stateNode.setState({ crypto2: amount, crypto: amount });
+      },
+
+      "Custom Password": () => {
+        let password = Number(
+          parseFloat(prompt("What do you want to set your password to?"))
+        );
+
+        reactHandler().stateNode.setState({ password });
+      },
+
+      "Remove Hack": () => {
+        reactHandler().stateNode.setState({ hack: "" });
+      },
+
+      "Reset Player's Crypto": () => {
+        let target = prompt("Name of player");
+
+        let e = reactHandler();
+
+        !target ||
+          e.memoizedProps.firebase.getDatabaseVal(
+            e.memoizedProps.client.hostId,
+            "c",
+            (...o) => {
+              let data = Object.keys(o[0]);
+
+              if (data.some((e) => e == target))
+                data.forEach((player) => {
+                  if (player == target) {
+                    e.memoizedProps.firebase.setVal({
+                      id: e.memoizedProps.client.hostId,
+
+                      path: "c/" + e.memoizedProps.client.name,
+
+                      val: {
+                        p: e.stateNode.state.password,
 
                         b: e.memoizedProps.client.blook,
 
-                        g: e.stateNode.state.gold,
+                        cr: e.stateNode.state.crypto,
 
-                        tat: player + ":swap:" + amount
-
-                    }
-
-                })
-
-            }
-
-        },
-
-        racing: {
-
-            'Instant Win': () => {
-
-                reactHandler().stateNode.setState({ progress: reactHandler().stateNode.state.goalAmount });
-
-                setTimeout(() => {
-
-                    try {
-
-                        Array.from(document.body.querySelectorAll('div[class*="answerText"]')).filter(t => t.firstChild.innerHTML == reactHandler().memoizedState.question.correctAnswers[0])[0].click();
-
-                    } catch {
-
-                        try {
-
-                            Array.from(document.body.querySelectorAll('div[class*="answerText"]')).filter(t => t.firstChild.innerHTML == reactHandler().memoizedProps.client.question.correctAnswers[0])[0].click();
-
-                        } catch { };
-
-                    };
-
-                }, 100);
-
-            }
-
-        },
-
-        defense: {
-
-            'Clear Enemies': () => {
-
-                reactHandler().stateNode.enemies = [];
-
-            },
-
-            'Max Towers': () => {
-
-                reactHandler().stateNode.towers.forEach(tower => {
-
-                    tower.damage = 99999999;
-
-                    tower.range = 99999999;
-
-                    tower.fullCd = 0;
-
+                        tat: player + ":" + (o[0][player].cr || 0),
+                      },
+                    });
+                    alert("Reset player's crypto");
+                  }
                 });
-
-            },
-
-            'Remove Ducks': () => {
-
-                data = reactHandler().stateNode;
-
-                data.ducks.forEach(x => { data.tiles[x.y][x.x] = 0; });
-
-                data.ducks.length = 0;
-
-            },
-
-            'Place Towers Anywhere': () => {
-
-                reactHandler().stateNode.tiles = reactHandler().stateNode.tiles.map(x => x.map(e => e == 2 ? 0 : e));
-
-            },
-
-            'Set Damage': () => {
-
-                let dmg = Number(parseFloat(prompt('How much damage do you want?')));
-
-                reactHandler().stateNode.dmg = dmg;
-
-            },
-
-            'Set Round': () => {
-
-                let round = Number(parseFloat(prompt('What round do you want to set it to?')));
-
-                reactHandler().stateNode.setState({ round });
-
-            },
-
-            'Set Tokens': () => {
-
-                let tokens = Number(parseFloat(prompt('How many tokens do you want?')));
-
-                reactHandler().stateNode.setState({ tokens });
-
+              else alert("Player does not exist");
             }
+          );
+      },
+    },
 
-        },
+    factory: {
+      "All Mega Bot": () => {
+        let blooks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].fill({
+          name: "Mega Bot",
+          color: "#d71f27",
+          class: "🤖",
+          rarity: "Legendary",
+          cash: [80000, 430000, 4200000, 62000000, 1000000000],
+          time: [5, 5, 3, 3, 3],
+          price: [7000000, 120000000, 1900000000, 35000000000],
+          active: false,
+          level: 4,
+          bonus: 5.5,
+        });
 
-        doom: {
+        reactHandler().stateNode.setState({ blooks });
+      },
 
-            'Set Coins': () => {
+      "Remove Glitches": () => {
+        reactHandler().stateNode.setState({
+          glitch: "",
 
-                try {
+          bites: 0,
 
-                    reactHandler().stateNode.props.setTowerCoins(Number(parseFloat(prompt('How many coins do you want?'))));
+          ads: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
-                } catch { }
+          hazards: ["", "", "", "", ""],
 
-            },
+          lol: false,
 
-            'Lower Enemy Stats': () => {
+          joke: false,
 
-                let data = reactHandler().stateNode.state;
+          slow: false,
 
-                if (data.phase != 'select') return alert('You must be on the attribute selection page!');
+          dance: false,
 
-                reactHandler().stateNode.setState({ enemyCard: { ...data.enemyCard, strength: 0, charisma: 0, wisdom: 0 } })
+          popUpAmount: 0,
+        });
+      },
 
-            },
+      "Max Blooks": () => {
+        reactHandler().stateNode.state.blooks.forEach((blook) => {
+          blook.level = 4;
+        });
+      },
 
-            'Max Player Stats': () => {
+      "Set Cash": () => {
+        let cash = Number(parseFloat(prompt("How much cash do you want?")));
 
-                let data = reactHandler().stateNode.state;
+        reactHandler().stateNode.setState({ cash });
+      },
+    },
 
-                if (data.phase != 'select') return alert('You must be on the attribute selection page!');
+    fishing: {
+      "Set Weight": () => {
+        let weight = Number(parseFloat(prompt("How much weight do you want?")));
 
-                reactHandler().stateNode.setState({ myCard: { ...data.myCard, strength: 20, charisma: 20, wisdom: 20 } })
+        reactHandler().stateNode.setState({ weight2: weight, weight });
+      },
 
-            },
+      "Set Lure": () => {
+        let lure =
+          Number(
+            parseFloat(prompt("What do you want to set your lure to? (1 - 5)"))
+          ) - 1;
 
-            'Heal Player': () => {
+        reactHandler().stateNode.setState({
+          lure: lure < 0 ? 0 : lure > 4 ? 4 : lure,
+        });
+      },
+    },
 
-                reactHandler().stateNode.setState({ myLife: 100 });
+    gold: {
+      "Set Gold": () => {
+        let gold = Number(parseFloat(prompt("How much gold do you want?")));
 
-            }
+        reactHandler().stateNode.setState({ gold2: gold, gold });
+      },
 
-        },
+      "Chest ESP": () => {
+        chestESP = !chestESP;
+      },
 
-        rush: {
+      "Set Player's Gold": () => {
+        let e = reactHandler(),
+          player = prompt("Player to set gold"),
+          amount = Number(parseFloat(prompt("Amount to set gold to")));
 
-            'Set Defense': () => {
+        e.memoizedProps.firebase.setVal({
+          id: e.memoizedProps.client.hostId,
 
-                let e = reactHandler();
+          path: "c/" + e.memoizedProps.client.name,
 
-                e.stateNode.props.firebase.setVal({
+          val: {
+            b: e.memoizedProps.client.blook,
 
-                    id: e.stateNode.props.client.hostId,
+            g: e.stateNode.state.gold,
 
-                    path: 'c/' + e.stateNode.props.client.name + '/d',
+            tat: player + ":swap:" + amount,
+          },
+        });
+      },
+    },
 
-                    val: Number(parseFloat(prompt('How much defense do you want?')))
+    racing: {
+      "Instant Win": () => {
+        reactHandler().stateNode.setState({
+          progress: reactHandler().stateNode.state.goalAmount,
+        });
 
-                });
+        setTimeout(() => {
+          try {
+            Array.from(
+              document.body.querySelectorAll('div[class*="answerText"]')
+            )
+              .filter(
+                (t) =>
+                  t.firstChild.innerHTML ==
+                  reactHandler().memoizedState.question.correctAnswers[0]
+              )[0]
+              .click();
+          } catch {
+            try {
+              Array.from(
+                document.body.querySelectorAll('div[class*="answerText"]')
+              )
+                .filter(
+                  (t) =>
+                    t.firstChild.innerHTML ==
+                    reactHandler().memoizedProps.client.question
+                      .correctAnswers[0]
+                )[0]
+                .click();
+            } catch {}
+          }
+        }, 100);
+      },
+    },
 
-            },
+    defense: {
+      "Clear Enemies": () => {
+        reactHandler().stateNode.enemies = [];
+      },
 
-            'Set Blooks': () => {
+      "Max Towers": () => {
+        reactHandler().stateNode.towers.forEach((tower) => {
+          tower.damage = 99999999;
 
-                let e = reactHandler();
+          tower.range = 99999999;
 
-                e.stateNode.props.firebase.setVal({
+          tower.fullCd = 0;
+        });
+      },
 
-                    id: e.stateNode.props.client.hostId,
+      "Remove Ducks": () => {
+        data = reactHandler().stateNode;
 
-                    path: 'c/' + e.stateNode.props.client.name + '/bs',
+        data.ducks.forEach((x) => {
+          data.tiles[x.y][x.x] = 0;
+        });
 
-                    val: Number(parseFloat(prompt('How many blooks do you want?')))
+        data.ducks.length = 0;
+      },
 
-                });
+      "Place Towers Anywhere": () => {
+        reactHandler().stateNode.tiles = reactHandler().stateNode.tiles.map(
+          (x) => x.map((e) => (e == 2 ? 0 : e))
+        );
+      },
 
-            }
+      "Set Damage": () => {
+        let dmg = Number(parseFloat(prompt("How much damage do you want?")));
 
-        }
+        reactHandler().stateNode.dmg = dmg;
+      },
 
-    };
+      "Set Round": () => {
+        let round = Number(
+          parseFloat(prompt("What round do you want to set it to?"))
+        );
 
+        reactHandler().stateNode.setState({ round });
+      },
 
+      "Set Tokens": () => {
+        let tokens = Number(parseFloat(prompt("How many tokens do you want?")));
 
-    let global = document.createElement('details');
+        reactHandler().stateNode.setState({ tokens });
+      },
+    },
 
-    global.innerHTML = (`<summary style="padding: 10px; font-size: 1.5em; font-weight: bolder">Global</summary>`);
+    doom: {
+      "Set Coins": () => {
+        try {
+          reactHandler().stateNode.props.setTowerCoins(
+            Number(parseFloat(prompt("How many coins do you want?")))
+          );
+        } catch {}
+      },
 
-    for (var i = 0; i < Object.keys(cheats.global).length; i++) {
+      "Lower Enemy Stats": () => {
+        let data = reactHandler().stateNode.state;
 
-        let cheat = createButton(Object.keys(cheats.global)[i]);
+        if (data.phase != "select")
+          return alert("You must be on the attribute selection page!");
 
-        cheat.onclick = cheats.global[Object.keys(cheats.global)[i]];
+        reactHandler().stateNode.setState({
+          enemyCard: { ...data.enemyCard, strength: 0, charisma: 0, wisdom: 0 },
+        });
+      },
 
-        global.appendChild(cheat);
+      "Max Player Stats": () => {
+        let data = reactHandler().stateNode.state;
 
+        if (data.phase != "select")
+          return alert("You must be on the attribute selection page!");
+
+        reactHandler().stateNode.setState({
+          myCard: { ...data.myCard, strength: 20, charisma: 20, wisdom: 20 },
+        });
+      },
+
+      "Heal Player": () => {
+        reactHandler().stateNode.setState({ myLife: 100 });
+      },
+    },
+
+    rush: {
+      "Set Defense": () => {
+        let e = reactHandler();
+
+        e.stateNode.props.firebase.setVal({
+          id: e.stateNode.props.client.hostId,
+
+          path: "c/" + e.stateNode.props.client.name + "/d",
+
+          val: Number(parseFloat(prompt("How much defense do you want?"))),
+        });
+      },
+
+      "Set Blooks": () => {
+        let e = reactHandler();
+
+        e.stateNode.props.firebase.setVal({
+          id: e.stateNode.props.client.hostId,
+
+          path: "c/" + e.stateNode.props.client.name + "/bs",
+
+          val: Number(parseFloat(prompt("How many blooks do you want?"))),
+        });
+      },
+    },
+  };
+
+  let global = document.createElement("details");
+
+  global.innerHTML = `<summary style="padding: 10px; font-size: 1.5em; font-weight: bolder">Global</summary>`;
+
+  for (var i = 0; i < Object.keys(cheats.global).length; i++) {
+    let cheat = createButton(Object.keys(cheats.global)[i]);
+
+    cheat.onclick = cheats.global[Object.keys(cheats.global)[i]];
+
+    global.appendChild(cheat);
+  }
+
+  global.open = true;
+
+  global.style.paddingBottom = "10px";
+
+  body.appendChild(global);
+
+  let cheatDiv = document.createElement("div");
+
+  body.appendChild(cheatDiv);
+
+  loop = setInterval(() => {
+    if (curPage != getSite()) {
+      curPage = getSite();
+
+      curPageEl.innerText = getSite(true)
+        ? `Current gamemode: ${getSite(true)}`
+        : "No game detected";
+
+      Array.from(cheatDiv.children).forEach((x) => x.remove());
+
+      if (curPage && cheats[curPage])
+        Object.keys(cheats[curPage]).forEach((cheat) => {
+          let button = createButton(cheat);
+
+          button.onclick = cheats[curPage][cheat];
+
+          cheatDiv.appendChild(button);
+
+          cheatDiv.appendChild(document.createElement("br"));
+        });
     }
 
-    global.open = true;
+    let activeCheatsText = `Auto Answer: ${
+      autoAnswer ? "Enabled" : "Disabled"
+    }\nHighlight Answers: ${highlightAnswers ? "Enabled" : "Disabled"}${
+      curPage == "kingdom"
+        ? `\nChoice ESP: ${choiceESP ? "Enabled" : "Disabled"}`
+        : curPage == "crypto"
+        ? `\nAuto Hack: ${autoPassword ? "Enabled" : "Disabled"}`
+        : curPage == "gold"
+        ? `\nChest ESP: ${chestESP ? "Enabled" : "Disabled"}`
+        : ""
+    }`;
+
+    activeCheats.innerText != activeCheatsText &&
+      (activeCheats.innerText = activeCheatsText);
+
+    if (autoAnswer) {
+      try {
+        Array.from(document.body.querySelectorAll('div[class*="answerText"]'))
+          .filter(
+            (t) =>
+              t.firstChild.innerHTML ==
+              reactHandler().memoizedState.question.correctAnswers[0]
+          )[0]
+          .click();
+      } catch {
+        try {
+          Array.from(document.body.querySelectorAll('div[class*="answerText"]'))
+            .filter(
+              (t) =>
+                t.firstChild.innerHTML ==
+                reactHandler().memoizedProps.client.question.correctAnswers[0]
+            )[0]
+            .click();
+        } catch {}
+      }
+    }
+
+    if (highlightAnswers) {
+      try {
+        Array.from(
+          document.querySelector('div[class*="answersHolder"').children
+        ).forEach((x) => {
+          if (
+            reactHandler().memoizedState.question.correctAnswers.includes(
+              x.innerText
+            ) ||
+            reactHandler().memoizedProps.client.question.correctAnswers.includes(
+              x.innerText
+            )
+          )
+            x.firstChild.style = "background-color: rgb(0, 207, 119);";
+          else x.firstChild.style = "background-color: rgb(225, 40, 33);";
+        });
+      } catch {}
+    }
+
+    if (curPage == "kingdom") {
+      Array.from(document.getElementsByClassName("choiceESP")).forEach((x) =>
+        x.remove()
+      );
+
+      if (choiceESP) {
+        try {
+          let elements = {
+            materials: Array.from(document.querySelectorAll("div")).find((x) =>
+              Array.from(x.children).find((e) => e.className.includes("tree"))
+            ),
+
+            people: Array.from(document.querySelectorAll("div")).find((x) =>
+              Array.from(x.children).find(
+                (e) =>
+                  e.className.includes("users") &&
+                  e.parentElement.className.includes("statContainer")
+              )
+            ),
+
+            happiness: Array.from(document.querySelectorAll("div")).find((x) =>
+              Array.from(x.children).find((e) => e.className.includes("grin"))
+            ),
+
+            gold: Array.from(document.querySelectorAll("div")).find((x) =>
+              Array.from(x.children).find((e) => e.className.includes("coins"))
+            ),
+          };
+
+          let data = reactHandler().stateNode.state.guest;
+
+          Object.entries(data.yes).forEach((x) => {
+            if (x[0] == "msg") return;
+
+            let element = document.createElement("div");
+
+            element.className = "choiceESP";
+
+            element.style =
+              "font-size: 24px; color: rgb(75, 194, 46); font-weight: bolder;";
+
+            element.innerText = String(x[1]);
+
+            elements[x[0]].appendChild(element);
+          });
 
-    global.style.paddingBottom = '10px';
+          Object.entries(data.no).forEach((x) => {
+            if (x[0] == "msg") return;
 
-    body.appendChild(global);
+            let element = document.createElement("div");
 
+            element.className = "choiceESP";
 
+            element.style =
+              "font-size: 24px; color: darkred; font-weight: bolder;";
 
-    let cheatDiv = document.createElement('div');
+            element.innerText = String(x[1]);
 
-    body.appendChild(cheatDiv);
+            elements[x[0]].appendChild(element);
+          });
+        } catch (e) {}
+      }
+    }
 
+    if (curPage == "crypto" && autoPassword) {
+      let { stage, correctPassword } = Object.values(
+        document.querySelector("#app > div > div")
+      )[1].children[1]._owner.stateNode.state;
 
+      if (stage == "hack")
+        Array.from(document.querySelectorAll("div"))
+          .filter((x) => x.innerHTML == correctPassword)[0]
+          .click();
+    }
 
-    loop = setInterval(() => {
+    if (curPage == "gold" && chestESP) {
+      try {
+        if (reactHandler().stateNode.state.stage == "prize") {
+          let { choices } = reactHandler().stateNode.state;
 
-        if (curPage != getSite()) {
+          let div = document.querySelector("div[class*='regularBody']")
+            .children[1];
 
-            curPage = getSite();
+          if (div) {
+            if (!document.querySelectorAll(".chest-esp").length)
+              choices.forEach((box, i) => {
+                textElement = document.createElement("p");
 
-            curPageEl.innerText = getSite(true) ? `Current gamemode: ${getSite(true)}` : 'No game detected'
+                textElement.className = "chest-esp";
 
-            Array.from(cheatDiv.children).forEach(x => x.remove());
+                textElement.innerText = box.text;
 
-            if (curPage && cheats[curPage]) Object.keys(cheats[curPage]).forEach(cheat => {
-
-                let button = createButton(cheat);
-
-                button.onclick = cheats[curPage][cheat];
-
-                cheatDiv.appendChild(button);
-
-                cheatDiv.appendChild(document.createElement('br'));
-
-            })
-
-        };
-
-        let activeCheatsText = (`Auto Answer: ${autoAnswer ? 'Enabled' : 'Disabled'}\nHighlight Answers: ${highlightAnswers ? 'Enabled' : 'Disabled'}${curPage == 'kingdom' ? `\nChoice ESP: ${choiceESP ? 'Enabled' : 'Disabled'}` : curPage == 'crypto' ? `\nAuto Hack: ${autoPassword ? 'Enabled' : 'Disabled'}` : curPage == 'gold' ? `\nChest ESP: ${chestESP ? 'Enabled' : 'Disabled'}` : ''}`);
-
-        activeCheats.innerText != activeCheatsText && (activeCheats.innerText = activeCheatsText);
-
-        if (autoAnswer) {
-
-            try {
-
-                Array.from(document.body.querySelectorAll('div[class*="answerText"]')).filter(t => t.firstChild.innerHTML == reactHandler().memoizedState.question.correctAnswers[0])[0].click();
-
-            } catch {
-
-                try {
-
-                    Array.from(document.body.querySelectorAll('div[class*="answerText"]')).filter(t => t.firstChild.innerHTML == reactHandler().memoizedProps.client.question.correctAnswers[0])[0].click();
-
-                } catch { };
-
-            };
-
-        };
-
-        if (highlightAnswers) {
-
-            try {
-
-                Array.from(document.querySelector('div[class*="answersHolder"').children).forEach(x => {
-
-                    if (reactHandler().memoizedState.question.correctAnswers.includes(x.innerText) || reactHandler().memoizedProps.client.question.correctAnswers.includes(x.innerText)) x.firstChild.style = 'background-color: rgb(0, 207, 119);';
-
-                    else x.firstChild.style = 'background-color: rgb(225, 40, 33);';
-
-                });
-
-            } catch { }
-
-        };
-
-        if (curPage == 'kingdom') {
-
-            Array.from(document.getElementsByClassName('choiceESP')).forEach(x => x.remove())
-
-            if (choiceESP) {
-
-                try {
-
-                    let elements = {
-
-                        materials: Array.from(document.querySelectorAll('div')).find(x => Array.from(x.children).find(e => e.className.includes('tree'))),
-
-                        people: Array.from(document.querySelectorAll('div')).find(x => Array.from(x.children).find(e => e.className.includes('users') && e.parentElement.className.includes('statContainer'))),
-
-                        happiness: Array.from(document.querySelectorAll('div')).find(x => Array.from(x.children).find(e => e.className.includes('grin'))),
-
-                        gold: Array.from(document.querySelectorAll('div')).find(x => Array.from(x.children).find(e => e.className.includes('coins')))
-
-                    }
-
-                    let data = reactHandler().stateNode.state.guest;
-
-                    Object.entries(data.yes).forEach(x => {
-
-                        if (x[0] == 'msg') return;
-
-                        let element = document.createElement('div');
-
-                        element.className = 'choiceESP';
-
-                        element.style = 'font-size: 24px; color: rgb(75, 194, 46); font-weight: bolder;';
-
-                        element.innerText = String(x[1])
-
-                        elements[x[0]].appendChild(element);
-
-                    })
-
-                    Object.entries(data.no).forEach(x => {
-
-                        if (x[0] == 'msg') return;
-
-                        let element = document.createElement('div');
-
-                        element.className = 'choiceESP';
-
-                        element.style = 'font-size: 24px; color: darkred; font-weight: bolder;';
-
-                        element.innerText = String(x[1])
-
-                        elements[x[0]].appendChild(element);
-
-                    })
-
-                } catch (e) { }
-
-            };
-
-        }
-
-        if (curPage == 'crypto' && autoPassword) {
-
-            let { stage, correctPassword } = Object.values(document.querySelector('#app > div > div'))[1].children[1]._owner.stateNode.state;
-
-            if (stage == "hack") Array.from(document.querySelectorAll('div')).filter(x => x.innerHTML == correctPassword)[0].click();
-
-        };
-
-        if (curPage == 'gold' && chestESP) {
-
-            try {
-
-                if (reactHandler().stateNode.state.stage == 'prize') {
-
-                    let { choices } = reactHandler().stateNode.state;
-
-                    let div = document.querySelector("div[class*='regularBody']").children[1];
-
-                    if (div) {
-
-                        if (!document.querySelectorAll(".chest-esp").length) choices.forEach((box, i) => {
-
-                            textElement = document.createElement('p');
-
-                            textElement.className = "chest-esp";
-
-                            textElement.innerText = box.text;
-
-                            textElement.style = `text-align: center;
+                textElement.style = `text-align: center;
 
                     font-size: 30px;
 
@@ -1210,102 +1168,102 @@ details summary ~ * {
 
                     border-color: black;
 
-                    margin-top: 200px;`
+                    margin-top: 200px;`;
 
-                            try { div.children[i].appendChild(textElement); } catch (e) { console.log(e) }
-
-                        });
-
-                        else choices.forEach((box, i) => {
-
-                            if (div.children.length == 3 && div.children[i].children[1].innerText != box.text) div.children[i].children[1].innerText = box.text;
-
-                        })
-
-                    }
-
+                try {
+                  div.children[i].appendChild(textElement);
+                } catch (e) {
+                  console.log(e);
                 }
+              });
+            else
+              choices.forEach((box, i) => {
+                if (
+                  div.children.length == 3 &&
+                  div.children[i].children[1].innerText != box.text
+                )
+                  div.children[i].children[1].innerText = box.text;
+              });
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  });
 
-            } catch (e) { console.log(e) }
+  let curPage = getSite();
 
-        };
+  if (curPage && cheats[curPage])
+    Object.keys(cheats[curPage]).forEach((cheat) => {
+      let button = createButton(cheat);
 
+      button.onclick = cheats[curPage][cheat];
+
+      cheatDiv.appendChild(button);
+
+      cheatDiv.appendChild(document.createElement("br"));
     });
 
+  function createButton(cheat) {
+    let button = document.createElement("button");
 
+    button.classList.add("cheat");
 
-    let curPage = getSite();
+    button.innerText = cheat;
 
-    if (curPage && cheats[curPage]) Object.keys(cheats[curPage]).forEach(cheat => {
+    return button;
+  }
 
-        let button = createButton(cheat);
+  function getSite(capitalize) {
+    switch (window.location.pathname.split("/")[2]) {
+      case "rush":
+        return capitalize ? "Blook Rush" : "rush";
 
-        button.onclick = cheats[curPage][cheat];
+      case "gold":
+        return capitalize ? "Gold Quest" : "gold";
 
-        cheatDiv.appendChild(button);
+      case "fishing":
+        return capitalize ? "Fishing Frenzy" : "fishing";
 
-        cheatDiv.appendChild(document.createElement('br'));
+      case "hack":
+        return capitalize ? "Crypto Hack" : "crypto";
 
-    })
+      case "battle-royale":
+        return capitalize ? "Battle Royale" : "royale";
 
+      case "factory":
+        return capitalize ? "Factory" : "factory";
 
+      case "racing":
+        return capitalize ? "Racing" : "racing";
 
-    function createButton(cheat) {
+      case "classic":
+        return capitalize ? "Classic" : "classic";
 
-        let button = document.createElement('button');
+      default:
+        switch (window.location.pathname.split("/")[1]) {
+          case "defense":
+            return capitalize ? "Tower Defense" : "defense";
 
-        button.classList.add('cheat');
+          case "cafe":
+            return capitalize ? "Café" : "cafe";
 
-        button.innerText = cheat;
+          case "tower":
+            return capitalize ? "Tower of Doom" : "doom";
 
-        return button
+          case "kingdom":
+            return capitalize ? "Crazy Kingdom" : "kingdom";
 
+          default:
+            return false;
+        }
     }
+  }
 
-    function getSite(capitalize) {
+  function toggleHidden(e) {
+    e.code == "KeyE" && (GUI.hidden = !GUI.hidden);
+  }
 
-        switch (window.location.pathname.split('/')[2]) {
-
-            case 'rush': return capitalize ? 'Blook Rush' : 'rush';
-
-            case 'gold': return capitalize ? 'Gold Quest' : 'gold';
-
-            case 'fishing': return capitalize ? 'Fishing Frenzy' : 'fishing';
-
-            case 'hack': return capitalize ? 'Crypto Hack' : 'crypto';
-
-            case 'battle-royale': return capitalize ? 'Battle Royale' : 'royale';
-
-            case 'factory': return capitalize ? 'Factory' : 'factory';
-
-            case 'racing': return capitalize ? 'Racing' : 'racing';
-
-            case 'classic': return capitalize ? 'Classic' : 'classic';
-
-            default: switch (window.location.pathname.split('/')[1]) {
-
-                case 'defense': return capitalize ? 'Tower Defense' : 'defense';
-
-                case 'cafe': return capitalize ? 'Café' : 'cafe';
-
-                case 'tower': return capitalize ? 'Tower of Doom' : 'doom';
-
-                case 'kingdom': return capitalize ? 'Crazy Kingdom' : 'kingdom';
-
-                default: return false;
-
-            }
-
-        };
-
-    };
-
-    function toggleHidden(e) {
-
-        e.code == 'KeyE' && (GUI.hidden = !GUI.hidden)
-
-    };
-
-    addEventListener('keypress', toggleHidden);
-
-})()
+  addEventListener("keypress", toggleHidden);
+})();
