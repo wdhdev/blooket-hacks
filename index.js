@@ -251,9 +251,7 @@ details summary ~ * {
 	GUI.appendChild(bodyDiv);
 
 	body.innerHTML = `<span id="curPageEl">${
-		getSite(true)
-			? `Current gamemode: ${getSite(true)}`
-			: "No game detected"
+		getSite(true) ? `Current gamemode: ${getSite(true)}` : "No game detected"
 	}</span><br><span>(Press E to hide)</span><br>`;
 
 	body.style.display = "block";
@@ -288,21 +286,15 @@ details summary ~ * {
 					.reduce((e, t) => [...e, ...t], [])
 					.find(
 						(e) =>
-							/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/.test(
-								e.toString()
-							) &&
-							/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/.test(
-								e.toString()
-							)
+							/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/.test(e.toString()) &&
+							/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/.test(e.toString())
 					)
 					.toString();
 
 				e({
 					blooketBuild: n.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)[0],
 
-					secret: n.match(
-						/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/
-					)[1],
+					secret: n.match(/\(new TextEncoder\)\.encode\(\"(.+?)\"\)/)[1],
 				});
 			} catch {
 				t("Could not fetch auth details");
@@ -355,74 +347,62 @@ details summary ~ * {
 	let cheats = {
 		global: {
 			"Get Daily Rewards": () => {
-				fetch("https://api.blooket.com/api/users", {
-					credentials: "include",
-				})
+				fetch("https://api.blooket.com/api/users", { credentials: "include" })
 					.then((x) => x.json())
 					.then((x) => {
 						getValues()
 							.then(async (e) => {
-								fetch(
-									"https://api.blooket.com/api/users/add-rewards",
-									{
-										method: "put",
+								fetch("https://api.blooket.com/api/users/add-rewards", {
+									method: "put",
 
-										credentials: "include",
+									credentials: "include",
 
-										headers: {
-											"content-type": "application/json",
+									headers: {
+										"content-type": "application/json",
 
-											"X-Blooket-Build": e.blooketBuild,
+										"X-Blooket-Build": e.blooketBuild,
+									},
+
+									body: await encodeValues(
+										{
+											name: x.name,
+
+											addedTokens: 250,
+
+											addedXp: 300,
 										},
+										e.secret
+									),
+								});
 
-										body: await encodeValues(
-											{
-												name: x.name,
+								fetch("https://api.blooket.com/api/users/add-rewards", {
+									method: "put",
 
-												addedTokens: 250,
+									credentials: "include",
 
-												addedXp: 300,
-											},
-											e.secret
-										),
-									}
-								);
+									headers: {
+										"content-type": "application/json",
 
-								fetch(
-									"https://api.blooket.com/api/users/add-rewards",
-									{
-										method: "put",
+										"X-Blooket-Build": e.blooketBuild,
+									},
 
-										credentials: "include",
+									body: await encodeValues(
+										{
+											name: x.name,
 
-										headers: {
-											"content-type": "application/json",
+											addedTokens: 250,
 
-											"X-Blooket-Build": e.blooketBuild,
+											addedXp: 300,
 										},
-
-										body: await encodeValues(
-											{
-												name: x.name,
-
-												addedTokens: 250,
-
-												addedXp: 300,
-											},
-											e.secret
-										),
-									}
-								)
+										e.secret
+									),
+								})
 									.then(() => alert("Added daily rewawrds!"))
 									.catch(() =>
-										alert(
-											"There was an error when adding rewards!"
-										)
+										alert("There was an error when adding rewards!")
 									);
 							})
-							.catch(() =>
-								alert("There was an error encoding requests!")
-							);
+							.catch(() => alert("There was an error encoding requests!"));
 					})
 					.catch(() => alert("There was an error getting username!"));
 			},
@@ -471,21 +451,15 @@ details summary ~ * {
 
 				let amount = prompt("How many boxes do you want to open?");
 
-				fetch("https://api.blooket.com/api/users", {
-					credentials: "include",
-				})
+				fetch("https://api.blooket.com/api/users", { credentials: "include" })
 					.then((x) => x.json())
 					.then((x) => {
 						if (x.tokens < boxes[box.toLowerCase()] * amount)
-							amount = Math.floor(
-								x.tokens / boxes[box.toLowerCase()]
-							);
+							amount = Math.floor(x.tokens / boxes[box.toLowerCase()]);
 
-						if (!amount)
-							return alert("You do not have enough tokens!");
+						if (!amount) return alert("You do not have enough tokens!");
 
-						let wait = (ms) =>
-							new Promise((r) => setTimeout(r, ms));
+						let wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 						getValues()
 							.then(async (e) => {
@@ -493,47 +467,34 @@ details summary ~ * {
 									blooks = [];
 
 								for (let i = 0; i < amount; i++) {
-									fetch(
-										"https://api.blooket.com/api/users/unlockblook",
-										{
-											method: "put",
+									fetch("https://api.blooket.com/api/users/unlockblook", {
+										method: "put",
 
-											credentials: "include",
+										credentials: "include",
 
-											headers: {
-												"content-type":
-													"application/json",
+										headers: {
+											"content-type": "application/json",
 
-												"X-Blooket-Build":
-													e.blooketBuild,
+											"X-Blooket-Build": e.blooketBuild,
+										},
+
+										body: await encodeValues(
+											{
+												name: x.name,
+
+												box:
+													box.charAt(0).toUpperCase() +
+													box.slice(1).toLowerCase(),
 											},
-
-											body: await encodeValues(
-												{
-													name: x.name,
-
-													box:
-														box
-															.charAt(0)
-															.toUpperCase() +
-														box
-															.slice(1)
-															.toLowerCase(),
-												},
-												e.secret
-											),
-										}
-									)
+											e.secret
+										),
+									})
 										.then(async (x) => {
 											let blook = await x.json();
 
 											blooks.push(blook.unlockedBlook);
 
-											alert(
-												`${blook.unlockedBlook} (${
-													i + 1
-												}/${amount})`
-											);
+											alert(`${blook.unlockedBlook} (${i + 1}/${amount})`);
 										})
 										.catch(() => {
 											error = true;
@@ -557,25 +518,20 @@ details summary ~ * {
 											.join(`\n`)
 								);
 							})
-							.catch(() =>
-								alert("There was an error encoding requests!")
-							);
+							.catch(() => alert("There was an error encoding requests!"));
 					})
 					.catch(() => alert("There was an error getting username!"));
 			},
 
 			"Auto Sell Dupes": () => {
-				fetch("https://api.blooket.com/api/users", {
-					credentials: "include",
-				})
+				fetch("https://api.blooket.com/api/users", { credentials: "include" })
 					.then((x) => x.json())
 					.then((x) => {
 						let blooks = Object.entries(x.unlocks)
 							.map((x) => [x[0], x[1] - 1])
 							.filter((x) => x[1] > 0);
 
-						let wait = (ms) =>
-							new Promise((r) => setTimeout(r, ms));
+						let wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 						getValues()
 							.then(async (e) => {
@@ -584,33 +540,28 @@ details summary ~ * {
 								alert("Selling duplicate blooks, please wait");
 
 								for (let [blook, numSold] of blooks) {
-									fetch(
-										"https://api.blooket.com/api/users/sellblook",
-										{
-											method: "put",
+									fetch("https://api.blooket.com/api/users/sellblook", {
+										method: "put",
 
-											credentials: "include",
+										credentials: "include",
 
-											headers: {
-												"content-type":
-													"application/json",
+										headers: {
+											"content-type": "application/json",
 
-												"X-Blooket-Build":
-													e.blooketBuild,
+											"X-Blooket-Build": e.blooketBuild,
+										},
+
+										body: await encodeValues(
+											{
+												name: x.name,
+
+												blook,
+
+												numSold,
 											},
-
-											body: await encodeValues(
-												{
-													name: x.name,
-
-													blook,
-
-													numSold,
-												},
-												e.secret
-											),
-										}
-									).catch(() => {
+											e.secret
+										),
+									}).catch(() => {
 										error = true;
 									});
 
@@ -621,18 +572,12 @@ details summary ~ * {
 
 								alert(
 									`Results:\n` +
-										blooks
-											.map((x) => `    ${x[1]} ${x[0]}`)
-											.join(`\n`)
+										blooks.map((x) => `    ${x[1]} ${x[0]}`).join(`\n`)
 								);
 							})
-							.catch(() =>
-								alert("There was an error encoding requests!")
-							);
+							.catch(() => alert("There was an error encoding requests!"));
 					})
-					.catch(() =>
-						alert("There was an error getting user data!")
-					);
+					.catch(() => alert("There was an error getting user data!"));
 			},
 		},
 
@@ -641,9 +586,7 @@ details summary ~ * {
 				if (document.location.pathname != "/cafe")
 					return alert("This cheat doesn't work in the shop!");
 
-				reactHandler().stateNode.state.foods.forEach(
-					(e) => (e.stock = 99999)
-				);
+				reactHandler().stateNode.state.foods.forEach((e) => (e.stock = 99999));
 
 				reactHandler().stateNode.forceUpdate();
 			},
@@ -661,9 +604,7 @@ details summary ~ * {
 
 			"Set Cash": () => {
 				reactHandler().stateNode.setState({
-					cafeCash: Number(
-						parseFloat(prompt("How much cash would you like?"))
-					),
+					cafeCash: Number(parseFloat(prompt("How much cash would you like?"))),
 				});
 			},
 
@@ -713,21 +654,14 @@ details summary ~ * {
 			},
 
 			"Set Crypto": () => {
-				let amount = Number(
-					parseFloat(prompt("How much crypto do you want?"))
-				);
+				let amount = Number(parseFloat(prompt("How much crypto do you want?")));
 
-				reactHandler().stateNode.setState({
-					crypto2: amount,
-					crypto: amount,
-				});
+				reactHandler().stateNode.setState({ crypto2: amount, crypto: amount });
 			},
 
 			"Custom Password": () => {
 				let password = Number(
-					parseFloat(
-						prompt("What do you want to set your password to?")
-					)
+					parseFloat(prompt("What do you want to set your password to?"))
 				);
 
 				reactHandler().stateNode.setState({ password });
@@ -755,9 +689,7 @@ details summary ~ * {
 										e.memoizedProps.firebase.setVal({
 											id: e.memoizedProps.client.hostId,
 
-											path:
-												"c/" +
-												e.memoizedProps.client.name,
+											path: "c/" + e.memoizedProps.client.name,
 
 											val: {
 												p: e.stateNode.state.password,
@@ -766,10 +698,7 @@ details summary ~ * {
 
 												cr: e.stateNode.state.crypto,
 
-												tat:
-													player +
-													":" +
-													(o[0][player].cr || 0),
+												tat: player + ":" + (o[0][player].cr || 0),
 											},
 										});
 										alert("Reset player's crypto");
@@ -828,9 +757,7 @@ details summary ~ * {
 			},
 
 			"Set Cash": () => {
-				let cash = Number(
-					parseFloat(prompt("How much cash do you want?"))
-				);
+				let cash = Number(parseFloat(prompt("How much cash do you want?")));
 
 				reactHandler().stateNode.setState({ cash });
 			},
@@ -838,9 +765,7 @@ details summary ~ * {
 
 		fishing: {
 			"Set Weight": () => {
-				let weight = Number(
-					parseFloat(prompt("How much weight do you want?"))
-				);
+				let weight = Number(parseFloat(prompt("How much weight do you want?")));
 
 				reactHandler().stateNode.setState({ weight2: weight, weight });
 			},
@@ -848,11 +773,7 @@ details summary ~ * {
 			"Set Lure": () => {
 				let lure =
 					Number(
-						parseFloat(
-							prompt(
-								"What do you want to set your lure to? (1 - 5)"
-							)
-						)
+						parseFloat(prompt("What do you want to set your lure to? (1 - 5)"))
 					) - 1;
 
 				reactHandler().stateNode.setState({
@@ -863,9 +784,7 @@ details summary ~ * {
 
 		gold: {
 			"Set Gold": () => {
-				let gold = Number(
-					parseFloat(prompt("How much gold do you want?"))
-				);
+				let gold = Number(parseFloat(prompt("How much gold do you want?")));
 
 				reactHandler().stateNode.setState({ gold2: gold, gold });
 			},
@@ -877,9 +796,7 @@ details summary ~ * {
 			"Set Player's Gold": () => {
 				let e = reactHandler(),
 					player = prompt("Player to set gold"),
-					amount = Number(
-						parseFloat(prompt("Amount to set gold to"))
-					);
+					amount = Number(parseFloat(prompt("Amount to set gold to")));
 
 				e.memoizedProps.firebase.setVal({
 					id: e.memoizedProps.client.hostId,
@@ -906,29 +823,24 @@ details summary ~ * {
 				setTimeout(() => {
 					try {
 						Array.from(
-							document.body.querySelectorAll(
-								'div[class*="answerText"]'
-							)
+							document.body.querySelectorAll('div[class*="answerText"]')
 						)
 							.filter(
 								(t) =>
 									t.firstChild.innerHTML ==
-									reactHandler().memoizedState.question
-										.correctAnswers[0]
+									reactHandler().memoizedState.question.correctAnswers[0]
 							)[0]
 							.click();
 					} catch {
 						try {
 							Array.from(
-								document.body.querySelectorAll(
-									'div[class*="answerText"]'
-								)
+								document.body.querySelectorAll('div[class*="answerText"]')
 							)
 								.filter(
 									(t) =>
 										t.firstChild.innerHTML ==
-										reactHandler().memoizedProps.client
-											.question.correctAnswers[0]
+										reactHandler().memoizedProps.client.question
+											.correctAnswers[0]
 								)[0]
 								.click();
 						} catch {}
@@ -963,16 +875,13 @@ details summary ~ * {
 			},
 
 			"Place Towers Anywhere": () => {
-				reactHandler().stateNode.tiles =
-					reactHandler().stateNode.tiles.map((x) =>
-						x.map((e) => (e == 2 ? 0 : e))
-					);
+				reactHandler().stateNode.tiles = reactHandler().stateNode.tiles.map(
+					(x) => x.map((e) => (e == 2 ? 0 : e))
+				);
 			},
 
 			"Set Damage": () => {
-				let dmg = Number(
-					parseFloat(prompt("How much damage do you want?"))
-				);
+				let dmg = Number(parseFloat(prompt("How much damage do you want?")));
 
 				reactHandler().stateNode.dmg = dmg;
 			},
@@ -986,9 +895,7 @@ details summary ~ * {
 			},
 
 			"Set Tokens": () => {
-				let tokens = Number(
-					parseFloat(prompt("How many tokens do you want?"))
-				);
+				let tokens = Number(parseFloat(prompt("How many tokens do you want?")));
 
 				reactHandler().stateNode.setState({ tokens });
 			},
@@ -998,9 +905,7 @@ details summary ~ * {
 			"Set Coins": () => {
 				try {
 					reactHandler().stateNode.props.setTowerCoins(
-						Number(
-							parseFloat(prompt("How many coins do you want?"))
-						)
+						Number(parseFloat(prompt("How many coins do you want?")))
 					);
 				} catch {}
 			},
@@ -1009,17 +914,10 @@ details summary ~ * {
 				let data = reactHandler().stateNode.state;
 
 				if (data.phase != "select")
-					return alert(
-						"You must be on the attribute selection page!"
-					);
+					return alert("You must be on the attribute selection page!");
 
 				reactHandler().stateNode.setState({
-					enemyCard: {
-						...data.enemyCard,
-						strength: 0,
-						charisma: 0,
-						wisdom: 0,
-					},
+					enemyCard: { ...data.enemyCard, strength: 0, charisma: 0, wisdom: 0 },
 				});
 			},
 
@@ -1027,17 +925,10 @@ details summary ~ * {
 				let data = reactHandler().stateNode.state;
 
 				if (data.phase != "select")
-					return alert(
-						"You must be on the attribute selection page!"
-					);
+					return alert("You must be on the attribute selection page!");
 
 				reactHandler().stateNode.setState({
-					myCard: {
-						...data.myCard,
-						strength: 20,
-						charisma: 20,
-						wisdom: 20,
-					},
+					myCard: { ...data.myCard, strength: 20, charisma: 20, wisdom: 20 },
 				});
 			},
 
@@ -1055,9 +946,7 @@ details summary ~ * {
 
 					path: "c/" + e.stateNode.props.client.name + "/d",
 
-					val: Number(
-						parseFloat(prompt("How much defense do you want?"))
-					),
+					val: Number(parseFloat(prompt("How much defense do you want?"))),
 				});
 			},
 
@@ -1069,9 +958,7 @@ details summary ~ * {
 
 					path: "c/" + e.stateNode.props.client.name + "/bs",
 
-					val: Number(
-						parseFloat(prompt("How many blooks do you want?"))
-					),
+					val: Number(parseFloat(prompt("How many blooks do you want?"))),
 				});
 			},
 		},
@@ -1138,28 +1025,20 @@ details summary ~ * {
 
 		if (autoAnswer) {
 			try {
-				Array.from(
-					document.body.querySelectorAll('div[class*="answerText"]')
-				)
+				Array.from(document.body.querySelectorAll('div[class*="answerText"]'))
 					.filter(
 						(t) =>
 							t.firstChild.innerHTML ==
-							reactHandler().memoizedState.question
-								.correctAnswers[0]
+							reactHandler().memoizedState.question.correctAnswers[0]
 					)[0]
 					.click();
 			} catch {
 				try {
-					Array.from(
-						document.body.querySelectorAll(
-							'div[class*="answerText"]'
-						)
-					)
+					Array.from(document.body.querySelectorAll('div[class*="answerText"]'))
 						.filter(
 							(t) =>
 								t.firstChild.innerHTML ==
-								reactHandler().memoizedProps.client.question
-									.correctAnswers[0]
+								reactHandler().memoizedProps.client.question.correctAnswers[0]
 						)[0]
 						.click();
 				} catch {}
@@ -1169,8 +1048,7 @@ details summary ~ * {
 		if (highlightAnswers) {
 			try {
 				Array.from(
-					document.querySelector('div[class*="answersHolder"')
-						.children
+					document.querySelector('div[class*="answersHolder"').children
 				).forEach((x) => {
 					if (
 						reactHandler().memoizedState.question.correctAnswers.includes(
@@ -1180,56 +1058,38 @@ details summary ~ * {
 							x.innerText
 						)
 					)
-						x.firstChild.style =
-							"background-color: rgb(0, 207, 119);";
-					else
-						x.firstChild.style =
-							"background-color: rgb(225, 40, 33);";
+						x.firstChild.style = "background-color: rgb(0, 207, 119);";
+					else x.firstChild.style = "background-color: rgb(225, 40, 33);";
 				});
 			} catch {}
 		}
 
 		if (curPage == "kingdom") {
-			Array.from(document.getElementsByClassName("choiceESP")).forEach(
-				(x) => x.remove()
+			Array.from(document.getElementsByClassName("choiceESP")).forEach((x) =>
+				x.remove()
 			);
 
 			if (choiceESP) {
 				try {
 					let elements = {
-						materials: Array.from(
-							document.querySelectorAll("div")
-						).find((x) =>
-							Array.from(x.children).find((e) =>
-								e.className.includes("tree")
-							)
+						materials: Array.from(document.querySelectorAll("div")).find((x) =>
+							Array.from(x.children).find((e) => e.className.includes("tree"))
 						),
 
-						people: Array.from(
-							document.querySelectorAll("div")
-						).find((x) =>
+						people: Array.from(document.querySelectorAll("div")).find((x) =>
 							Array.from(x.children).find(
 								(e) =>
 									e.className.includes("users") &&
-									e.parentElement.className.includes(
-										"statContainer"
-									)
+									e.parentElement.className.includes("statContainer")
 							)
 						),
 
-						happiness: Array.from(
-							document.querySelectorAll("div")
-						).find((x) =>
-							Array.from(x.children).find((e) =>
-								e.className.includes("grin")
-							)
+						happiness: Array.from(document.querySelectorAll("div")).find((x) =>
+							Array.from(x.children).find((e) => e.className.includes("grin"))
 						),
 
-						gold: Array.from(document.querySelectorAll("div")).find(
-							(x) =>
-								Array.from(x.children).find((e) =>
-									e.className.includes("coins")
-								)
+						gold: Array.from(document.querySelectorAll("div")).find((x) =>
+							Array.from(x.children).find((e) => e.className.includes("coins"))
 						),
 					};
 
@@ -1284,9 +1144,8 @@ details summary ~ * {
 				if (reactHandler().stateNode.state.stage == "prize") {
 					let { choices } = reactHandler().stateNode.state;
 
-					let div = document.querySelector(
-						"div[class*='regularBody']"
-					).children[1];
+					let div = document.querySelector("div[class*='regularBody']")
+						.children[1];
 
 					if (div) {
 						if (!document.querySelectorAll(".chest-esp").length)
@@ -1321,11 +1180,9 @@ details summary ~ * {
 							choices.forEach((box, i) => {
 								if (
 									div.children.length == 3 &&
-									div.children[i].children[1].innerText !=
-										box.text
+									div.children[i].children[1].innerText != box.text
 								)
-									div.children[i].children[1].innerText =
-										box.text;
+									div.children[i].children[1].innerText = box.text;
 							});
 					}
 				}
