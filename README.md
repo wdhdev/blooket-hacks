@@ -9,7 +9,7 @@ I am not responsible for any actions taken by Blooket!
 ## Get the Hacks
 
 1. Go to https://blooket.wdh.gg
-    - If the website is blocked, [go here instead](https://raw.githubusercontent.com/WilliamDavidHarrison/blooket-hacks/main/index.js).
+    - If the website is blocked, [go here instead](https://raw.githubusercontent.com/wdhdev/blooket-hacks/main/blooket_hacks.js).
 2. Copy the code
 3. Go to your Blooket game
 4. Right click on the website, and press inspect element
