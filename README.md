@@ -1,7 +1,7 @@
+# These hacks have been patched and no longer work.
+
 # 📜 Blooket Hacks
 A GUI that has lots of Blooket hacks for most modes.
-
-⭐️ **Make sure to star the repository!**
 
 ## ✨ Usage
 1. Go to any of the websites below and copy the code.
